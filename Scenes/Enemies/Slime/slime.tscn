@@ -1,19 +1,19 @@
-[gd_scene load_steps=8 format=3 uid="uid://bookjdjfx78cy"]
+[gd_scene load_steps=7 format=3 uid="uid://bookjdjfx78cy"]
 
 [ext_resource type="Texture2D" uid="uid://cn8wp84odd563" path="res://icon.svg" id="1_5yj82"]
-[ext_resource type="Script" path="res://Scenes/Enemies/Slime/slime.cs" id="1_gfx8f"]
-[ext_resource type="Script" path="res://Scenes/Enemies/Slime/FSM.cs" id="3_thjv5"]
-[ext_resource type="Script" path="res://Scenes/Enemies/Slime/Pursuit.cs" id="4_ivof3"]
-[ext_resource type="Script" path="res://Scenes/Enemies/Slime/Attack.cs" id="5_djwqe"]
+[ext_resource type="Script" path="res://Scenes/Enemies/Slime/Slime.cs" id="1_iy0kl"]
+[ext_resource type="PackedScene" uid="uid://cvkttwm7rc8n8" path="res://Scenes/Components/HealthComponent.tscn" id="2_at2k3"]
+[ext_resource type="PackedScene" uid="uid://7635doa5rnil" path="res://Scenes/Components/hitboxComponent.tscn" id="3_ijpfv"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_l5kou"]
 radius = 48.0416
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_ixydk"]
-radius = 216.113
+[sub_resource type="CircleShape2D" id="CircleShape2D_wd6qc"]
+radius = 76.0
 
 [node name="Slime" type="CharacterBody2D"]
-script = ExtResource("1_gfx8f")
+script = ExtResource("1_iy0kl")
+Speed = 200.0
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 modulate = Color(0, 0.654902, 0, 1)
@@ -22,20 +22,12 @@ texture = ExtResource("1_5yj82")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_l5kou")
 
-[node name="FSM" type="Node" parent="."]
-script = ExtResource("3_thjv5")
-initialState = NodePath("Pursuit")
+[node name="HealthComponent" parent="." instance=ExtResource("2_at2k3")]
+MaxHealth = 2
 
-[node name="Pursuit" type="Node" parent="FSM" node_paths=PackedStringArray("enemy")]
-script = ExtResource("4_ivof3")
-enemy = NodePath("../..")
+[node name="HitboxComponent" parent="." node_paths=PackedStringArray("HealthComponent") instance=ExtResource("3_ijpfv")]
+HealthComponent = NodePath("../HealthComponent")
 
-[node name="Attack" type="Node" parent="FSM"]
-script = ExtResource("5_djwqe")
-
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-shape = SubResource("CircleShape2D_ixydk")
-
-[connection signal="body_entered" from="Area2D" to="FSM/Pursuit" method="OnBodyEntered"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("CircleShape2D_wd6qc")
+debug_color = Color(0.92549, 0.207843, 0.454902, 0.419608)

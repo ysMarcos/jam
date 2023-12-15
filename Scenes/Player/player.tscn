@@ -1,10 +1,15 @@
-[gd_scene load_steps=4 format=3 uid="uid://btgf5l0xkvl6j"]
+[gd_scene load_steps=7 format=3 uid="uid://btgf5l0xkvl6j"]
 
 [ext_resource type="Script" path="res://Scenes/Player/Player.cs" id="1_rv6xs"]
 [ext_resource type="Texture2D" uid="uid://cn8wp84odd563" path="res://icon.svg" id="1_y1ql7"]
+[ext_resource type="PackedScene" uid="uid://cvkttwm7rc8n8" path="res://Scenes/Components/healthComponent.tscn" id="3_gggmk"]
+[ext_resource type="PackedScene" uid="uid://7635doa5rnil" path="res://Scenes/Components/hitboxComponent.tscn" id="4_4bqgf"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8x8dx"]
 size = Vector2(106, 105)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_ukxqm"]
+radius = 62.2013
 
 [node name="Player" type="CharacterBody2D"]
 script = ExtResource("1_rv6xs")
@@ -15,3 +20,12 @@ texture = ExtResource("1_y1ql7")
 [node name="Hurtbox" type="CollisionShape2D" parent="."]
 position = Vector2(0, -0.5)
 shape = SubResource("RectangleShape2D_8x8dx")
+
+[node name="HealthComponent" parent="." instance=ExtResource("3_gggmk")]
+MaxHealth = 5
+
+[node name="HitboxComponent" parent="." node_paths=PackedStringArray("HealthComponent") instance=ExtResource("4_4bqgf")]
+HealthComponent = NodePath("../HealthComponent")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxComponent"]
+shape = SubResource("CircleShape2D_ukxqm")

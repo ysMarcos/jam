@@ -1,0 +1,18 @@
+[gd_scene load_steps=4 format=3 uid="uid://clluqdsc6apc4"]
+
+[ext_resource type="Script" path="res://FSM.cs" id="1_124gn"]
+[ext_resource type="Script" path="res://Assets/Pursuit.cs" id="2_2m22o"]
+[ext_resource type="Script" path="res://Scenes/Enemies/Slime/Attack.cs" id="3_vcmru"]
+
+[node name="FSM" type="Node"]
+script = ExtResource("1_124gn")
+initialState = NodePath("Pursuit")
+
+[node name="Pursuit" type="Node" parent="." node_paths=PackedStringArray("enemy")]
+script = ExtResource("2_2m22o")
+enemy = NodePath("")
+
+[node name="Attack" type="Node" parent="." node_paths=PackedStringArray("enemy")]
+script = ExtResource("3_vcmru")
+DashSpeed = 10
+enemy = NodePath("")

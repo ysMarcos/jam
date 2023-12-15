@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.Runtime.CompilerServices;
 
-public partial class State : Node
+public partial class State : Node2D
 {
 	public FSM fsm;
 	public virtual void Enter() {}
